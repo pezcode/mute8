@@ -31,9 +31,9 @@ void TestCoreAudioImpl::enumeratorTypeCount() const
 {
     CoreDeviceEnumerator enumerator;
     enumerator.populate();
-    const auto inDevices = enumerator.devices(IAudioDevice::tInput, IAudioDevice::sAny);
-    const auto outDevices = enumerator.devices(IAudioDevice::tOutput, IAudioDevice::sAny);
-    const auto allDevices = enumerator.devices(IAudioDevice::tAny, IAudioDevice::sAny);
+    const auto inDevices = enumerator.devices(IAudioDevice::tInput, IDeviceEnumerator::any);
+    const auto outDevices = enumerator.devices(IAudioDevice::tOutput, IDeviceEnumerator::any);
+    const auto allDevices = enumerator.devices(IDeviceEnumerator::any, IDeviceEnumerator::any);
     QVERIFY(inDevices.size() + outDevices.size() == allDevices.size());
 }
 
@@ -41,9 +41,9 @@ void TestCoreAudioImpl::enumeratorStateCount() const
 {
     CoreDeviceEnumerator enumerator;
     enumerator.populate();
-    const auto activeDevices = enumerator.devices(IAudioDevice::tAny, IAudioDevice::sActive);
-    const auto disabledDevices = enumerator.devices(IAudioDevice::tAny, IAudioDevice::sDisabled);
-    const auto allDevices = enumerator.devices(IAudioDevice::tAny, IAudioDevice::sAny);
+    const auto activeDevices = enumerator.devices(IDeviceEnumerator::any, IAudioDevice::sActive);
+    const auto disabledDevices = enumerator.devices(IDeviceEnumerator::any, IAudioDevice::sDisabled);
+    const auto allDevices = enumerator.devices(IDeviceEnumerator::any, IDeviceEnumerator::any);
     QVERIFY(activeDevices.size() + disabledDevices.size() == allDevices.size());
 }
 

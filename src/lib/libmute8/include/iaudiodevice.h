@@ -15,15 +15,13 @@ public:
     enum Type
     {
         tInput,
-        tOutput,
-        tAny // not returned from getType, only used for IDeviceEnumerator::devices
+        tOutput
     };
 
     enum State
     {
         sActive,
-        sDisabled,
-        sAny // not returned from getState, only used for IDeviceEnumerator::devices
+        sDisabled
     };
 
     virtual ~IAudioDevice() = default;

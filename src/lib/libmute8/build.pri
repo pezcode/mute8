@@ -1,1 +1,3 @@
-INCLUDEPATH += $$PWD/include
+INCLUDEPATH += \
+    $$PWD/include \
+    $$(BOOST_DIR)

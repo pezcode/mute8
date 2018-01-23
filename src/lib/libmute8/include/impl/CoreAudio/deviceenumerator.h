@@ -14,7 +14,7 @@ public:
     virtual ~CoreDeviceEnumerator();
 
     virtual bool populate();
-    virtual std::vector<std::shared_ptr<IAudioDevice>> devices(IAudioDevice::Type type, IAudioDevice::State state) const;
+    virtual std::vector<std::shared_ptr<IAudioDevice>> devices(boost::optional<IAudioDevice::Type> type, boost::optional<IAudioDevice::State> state) const;
     virtual size_t count() const;
 
     virtual void clear();

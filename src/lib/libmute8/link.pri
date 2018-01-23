@@ -9,5 +9,13 @@ win32 {
     LIBS += -L$$shadowed(lib) -llibmute8
 }
 
-INCLUDEPATH += $$PWD/include
+PRE_TARGETDEPS += $$shadowed(lib)
+
+# TODO: find a way to not hardcode this
+LIBS += -L$$(BOOST_DIR)/lib64-msvc-14.1
+
+INCLUDEPATH += \
+    $$PWD/include \
+    $$(BOOST_DIR)
+
 DEPENDPATH += $$PWD/include
