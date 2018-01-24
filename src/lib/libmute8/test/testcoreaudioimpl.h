@@ -9,11 +9,24 @@ class TestCoreAudioImpl : public QObject
   
   private slots:
 
-    void enumeratorEmptyCount() const;
-    void enumeratorPopulate() const;
+    void enumeratorEmpty() const;
     void enumeratorClear() const;
+    void enumeratorDeviceCount() const;
     void enumeratorTypeCount() const;
     void enumeratorStateCount() const;
+    void enumeratorType() const;
+    void enumeratorState() const;
+
+    void deviceCtorNull() const;
+    void deviceHaveNameAndId() const;
+    void deviceUniqueIds() const;
+    void deviceVolumeActivePtr() const;
+
+    void volumeCtorNull() const;
+    void volumeRange() const;
+    void volumeSetVolume() const;
+    void volumeSetMute() const;
+    // void volumeMuteVolumeInteraction() const;
 };
 
 #endif // TESTCOREAUDIOIMPL_H
