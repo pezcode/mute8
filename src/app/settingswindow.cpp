@@ -12,9 +12,24 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
     mute8::CoreDeviceEnumerator enumerator;
     enumerator.populate();
 
-    for(const auto device: enumerator.devices(mute8::IAudioDevice::tInput, mute8::IAudioDevice::sActive))
+    for(const auto device: enumerator.devices(mute8::CoreDeviceEnumerator::any, mute8::CoreDeviceEnumerator::any))
     {
-        ui->listWidget->addItem(QString::fromStdString(device->getName()));
+        QString type = device->getType() == mute8::IAudioDevice::tOutput ? "[OUT]" : "[IN]";
+        QString state = device->getState() == mute8::IAudioDevice::sActive ? "[A]" : "[D]";
+        QString volume = "";
+        try
+        {
+            if(device->getVolumeControl() != nullptr)
+            {
+                volume = "[V]";
+            }
+        }
+        catch(std::exception e)
+        {
+            //
+        }
+        QString name = QString::fromStdString(device->getName());
+        ui->listWidget->addItem(type + state + volume + " " + name);
     }
 }
 
