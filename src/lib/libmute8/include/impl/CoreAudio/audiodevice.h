@@ -13,7 +13,9 @@ class CoreAudioDevice : public IAudioDevice
 {
 public:
 
-    CoreAudioDevice(IMMDevice* device);
+    _COM_SMARTPTR_TYPEDEF(IMMDevice, __uuidof(IMMDevice));
+
+    CoreAudioDevice(const IMMDevicePtr& device);
     virtual ~CoreAudioDevice() = default;
 
     virtual std::string getId() const;
@@ -24,7 +26,7 @@ public:
 
 private:
 
-    _COM_SMARTPTR_TYPEDEF(IMMDevice, __uuidof(IMMDevice));
+
     _COM_SMARTPTR_TYPEDEF(IMMEndpoint, __uuidof(IMMEndpoint));
 
     IMMDevicePtr pDevice;

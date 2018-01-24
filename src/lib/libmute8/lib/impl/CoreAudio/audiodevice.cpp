@@ -11,7 +11,7 @@
 
 using namespace mute8;
 
-CoreAudioDevice::CoreAudioDevice(IMMDevice* device)
+CoreAudioDevice::CoreAudioDevice(const IMMDevicePtr& device)
 {
     if(device == nullptr)
     {
@@ -119,6 +119,15 @@ std::shared_ptr<IVolumeControl> CoreAudioDevice::getVolumeControl() const
 {
     _COM_SMARTPTR_TYPEDEF(IAudioEndpointVolume, __uuidof(IAudioEndpointVolume));
 
+    if(this->getState() != sActive)
+    {
+        // pDevice->Activate returns E_POINTER if there is no IAudioEndpointVolume
+        // Shouldn't this be E_NOINTERFACE or E_NOTIMPL?
+        // There are volume controls for all active devices so this is a bit of a hack
+        // TODO fix this with proper hr check
+        return nullptr;
+    }
+
     IAudioEndpointVolumePtr pVolume;
     HRESULT hr = this->pDevice->Activate(__uuidof(IAudioEndpointVolume), CLSCTX_ALL, NULL, reinterpret_cast<void**>(&pVolume));
     if(FAILED(hr))
@@ -127,8 +136,7 @@ std::shared_ptr<IVolumeControl> CoreAudioDevice::getVolumeControl() const
     }
 
     assert(pVolume != nullptr);
-    IVolumeControl* volume = new CoreVolumeControl(pVolume);
-    return std::shared_ptr<IVolumeControl>(volume);
+    return std::make_shared<CoreVolumeControl>(pVolume);
 }
 
 /*
