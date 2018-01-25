@@ -1,12 +1,18 @@
 TARGET = test
 TEMPLATE = app
-CONFIG += testcase console
+CONFIG += testcase
 
 QT += testlib
 
 SOURCES += \
-    testcoreaudioimpl.cpp
+    tests.cpp \
+    CoreAudio/testcoreenumerator.cpp \
+    CoreAudio/testcoreaudiodevice.cpp \
+    CoreAudio/testcorevolumecontrol.cpp
+
 HEADERS += \
-    testcoreaudioimpl.h
+    CoreAudio/testcoreenumerator.h \
+    CoreAudio/testcoreaudiodevice.h \
+    CoreAudio/testcorevolumecontrol.h
 
 include(../link.pri)

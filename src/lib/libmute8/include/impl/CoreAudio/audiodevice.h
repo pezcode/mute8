@@ -31,8 +31,6 @@ private:
 
     IMMDevicePtr pDevice;
     IMMEndpointPtr pEndpoint;
-
-    std::string encodeUtf8(const std::wstring& wstr) const;
 };
 
 }

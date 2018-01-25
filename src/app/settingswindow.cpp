@@ -16,18 +16,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
     {
         QString type = device->getType() == mute8::IAudioDevice::tOutput ? "[OUT]" : "[IN]";
         QString state = device->getState() == mute8::IAudioDevice::sActive ? "[A]" : "[D]";
-        QString volume = "";
-        try
-        {
-            if(device->getVolumeControl() != nullptr)
-            {
-                volume = "[V]";
-            }
-        }
-        catch(std::exception e)
-        {
-            //
-        }
+        QString volume = device->getVolumeControl() != nullptr ? "[V]" : "";
         QString name = QString::fromStdString(device->getName());
         ui->listWidget->addItem(type + state + volume + " " + name);
     }

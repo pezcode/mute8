@@ -125,29 +125,17 @@ std::shared_ptr<IVolumeControl> CoreAudioDevice::getVolumeControl() const
         // Shouldn't this be E_NOINTERFACE or E_NOTIMPL?
         // There are volume controls for all active devices so this is a bit of a hack
         // TODO fix this with proper hr check
-        return nullptr;
+        //return nullptr;
     }
 
     IAudioEndpointVolumePtr pVolume;
     HRESULT hr = this->pDevice->Activate(__uuidof(IAudioEndpointVolume), CLSCTX_ALL, NULL, reinterpret_cast<void**>(&pVolume));
     if(FAILED(hr))
     {
-        throw std::runtime_error("Activate for IAudioEndpointVolume failed");
+        return nullptr;
+        //throw std::runtime_error("Activate for IAudioEndpointVolume failed");
     }
 
     assert(pVolume != nullptr);
     return std::make_shared<CoreVolumeControl>(pVolume);
 }
-
-/*
-std::string CoreAudioDevice::encodeUtf8(const std::wstring &strUtf16)
-{
-    if(strUtf16.empty())
-        return std::string();
-
-    int size = WideCharToMultiByte(CP_UTF8, 0, strUtf16.c_str(), static_cast<int>(strUtf16.size()), NULL, 0, NULL, NULL);
-    std::string strUtf8(size, 0);
-    WideCharToMultiByte(CP_UTF8, 0, strUtf16.c_str(), static_cast<int>(strUtf16.size()), &strUtf8[0], size, NULL, NULL);
-    return strUtf8;
-}
-*/
