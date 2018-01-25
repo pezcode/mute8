@@ -11,9 +11,6 @@
 
 using namespace mute8;
 
-//static const boost::none_t CoreDeviceEnumerator::tAny = boost::none;
-//static const boost::none_t CoreDeviceEnumerator::tAny = boost::none;
-
 CoreDeviceEnumerator::CoreDeviceEnumerator()
 {
     /*
@@ -91,16 +88,9 @@ bool CoreDeviceEnumerator::populate()
     return false;
 }
 
-std::vector<std::shared_ptr<IAudioDevice>> CoreDeviceEnumerator::devices(boost::optional<IAudioDevice::Type> type, boost::optional<IAudioDevice::State> state) const
+void CoreDeviceEnumerator::clear()
 {
-std::vector<std::shared_ptr<IAudioDevice>> filtered;
-
-    // back_inserter allows inserting without having to set vector size beforehand
-    std::copy_if(this->_devices.begin(), this->_devices.end(), std::back_inserter(filtered), [type, state](const std::shared_ptr<IAudioDevice>& device) {
-        return (!type || *type == device->getType()) && (!state || *state == device->getState());
-    });
-
-    return filtered;
+    this->_devices.clear();
 }
 
 size_t CoreDeviceEnumerator::count() const
@@ -108,7 +98,14 @@ size_t CoreDeviceEnumerator::count() const
     return this->_devices.size();
 }
 
-void CoreDeviceEnumerator::clear()
+IDeviceEnumerator::DeviceList CoreDeviceEnumerator::devices(boost::optional<IAudioDevice::Type> type, boost::optional<IAudioDevice::State> state) const
 {
-    this->_devices.clear();
+DeviceList filtered;
+
+    // back_inserter allows inserting without having to set vector size beforehand
+    std::copy_if(this->_devices.begin(), this->_devices.end(), std::back_inserter(filtered), [type, state](const std::shared_ptr<IAudioDevice>& device) {
+        return (!type || *type == device->getType()) && (!state || *state == device->getState());
+    });
+
+    return filtered;
 }

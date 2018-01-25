@@ -19,13 +19,28 @@ public:
     // make filters in devices() optional
     static constexpr auto any = boost::none;
 
+    typedef std::vector<std::shared_ptr<IAudioDevice>> DeviceList;
+
     virtual ~IDeviceEnumerator() = default;
 
     virtual bool populate() = 0;
-    virtual std::vector<std::shared_ptr<IAudioDevice>> devices(boost::optional<IAudioDevice::Type> type, boost::optional<IAudioDevice::State> state) const = 0;
+    virtual void clear() = 0;
     virtual size_t count() const = 0;
 
-    virtual void clear() = 0;
+    virtual DeviceList devices(boost::optional<IAudioDevice::Type> type, boost::optional<IAudioDevice::State> state) const = 0;
+    // for convenience
+    virtual DeviceList devices(IAudioDevice::State state) const
+    {
+       return this->devices(any, state);
+    }
+    virtual DeviceList devices(IAudioDevice::Type type) const
+    {
+       return this->devices(type, any);
+    }
+    virtual DeviceList devices() const
+    {
+       return this->devices(any, any);
+    }
 };
 
 }

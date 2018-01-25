@@ -14,14 +14,15 @@ public:
     virtual ~CoreDeviceEnumerator();
 
     virtual bool populate();
-    virtual std::vector<std::shared_ptr<IAudioDevice>> devices(boost::optional<IAudioDevice::Type> type, boost::optional<IAudioDevice::State> state) const;
+    virtual void clear();
     virtual size_t count() const;
 
-    virtual void clear();
+    using IDeviceEnumerator::devices; // also use overloaded interface methods
+    virtual DeviceList devices(boost::optional<IAudioDevice::Type> type, boost::optional<IAudioDevice::State> state) const;
 
 private:
 
-    std::vector<std::shared_ptr<IAudioDevice>> _devices;
+    DeviceList _devices;
 
     bool comInit;
 };
