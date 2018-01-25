@@ -1,17 +1,18 @@
-#ifndef TESTCOREENUMERATOR_H
-#define TESTCOREENUMERATOR_H
+#ifndef TESTCOREDEVICEENUMERATOR_H
+#define TESTCOREDEVICEENUMERATOR_H
 
 #include <QtTest/QtTest>
 #include <impl/CoreAudio/deviceenumerator.h>
 
-class TestCoreEnumerator : public QObject
+class TestCoreDeviceEnumerator : public QObject
 {
   Q_OBJECT
 
 private:
 
     mute8::CoreDeviceEnumerator enumerator;
-    size_t _emptyCount;
+    size_t initialCount, initialDeviceCount;
+    mute8::IDeviceEnumerator::DeviceList devices, inputDevices, outputDevices, activeDevices, disabledDevices;
 
 private slots:
 
@@ -26,4 +27,4 @@ private slots:
     void devicesReturnsCorrectState() const;
 };
 
-#endif // TESTCOREENUMERATOR_H
+#endif // TESTCOREDEVICEENUMERATOR_H

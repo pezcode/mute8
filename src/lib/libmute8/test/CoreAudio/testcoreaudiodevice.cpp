@@ -15,7 +15,7 @@ void TestCoreAudioDevice::initTestCase()
     {
         QSKIP("No audio devices");
     }
-    this->devices = enumerator.devices(IDeviceEnumerator::any, IDeviceEnumerator::any);
+    this->devices = enumerator.devices();
 }
 
 // CoreAudioDevice throws on nullptr argument in its constructor

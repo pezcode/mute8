@@ -2,6 +2,7 @@
 #define TESTCOREAUDIODEVICE_H
 
 #include <QtTest/QtTest>
+#include <ideviceenumerator.h>
 #include <iaudiodevice.h>
 #include <vector>
 #include <memory>
@@ -12,7 +13,7 @@ class TestCoreAudioDevice : public QObject
 
 private:
 
-    std::vector<std::shared_ptr<mute8::IAudioDevice>> devices;
+    mute8::IDeviceEnumerator::DeviceList devices;
   
 private slots:
 

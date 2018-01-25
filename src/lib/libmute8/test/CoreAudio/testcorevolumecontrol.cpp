@@ -7,6 +7,7 @@ using namespace mute8;
 
 bool TestCoreVolumeControl::compareVolumes(float fl1, float fl2)
 {
+    // allow volume difference of 2%
     constexpr float VOL_EPSILON = 0.02f;
 
     return std::abs(fl1 - fl2) < VOL_EPSILON;
@@ -21,7 +22,7 @@ void TestCoreVolumeControl::initTestCase()
         QSKIP("No audio devices");
     }
 
-    this->devices = enumerator.devices(IDeviceEnumerator::any, IDeviceEnumerator::any);
+    this->devices = enumerator.devices();
 }
 
 /*

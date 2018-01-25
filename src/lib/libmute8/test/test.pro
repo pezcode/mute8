@@ -6,13 +6,13 @@ QT += testlib
 
 SOURCES += \
     tests.cpp \
-    CoreAudio/testcoreenumerator.cpp \
     CoreAudio/testcoreaudiodevice.cpp \
-    CoreAudio/testcorevolumecontrol.cpp
+    CoreAudio/testcorevolumecontrol.cpp \
+    CoreAudio/testcoredeviceenumerator.cpp
 
 HEADERS += \
-    CoreAudio/testcoreenumerator.h \
     CoreAudio/testcoreaudiodevice.h \
-    CoreAudio/testcorevolumecontrol.h
+    CoreAudio/testcorevolumecontrol.h \
+    CoreAudio/testcoredeviceenumerator.h
 
 include(../link.pri)
