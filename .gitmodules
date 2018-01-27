@@ -1,0 +1,3 @@
+[submodule "src/external/qglobalshortcut"]
+	path = src/external/qglobalshortcut
+	url = https://github.com/pezcode/qglobalshortcut.git
