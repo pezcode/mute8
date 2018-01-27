@@ -2,5 +2,4 @@ TEMPLATE = subdirs
 CONFIG += ordered
 
 SUBDIRS += \
-    lib \
-    test
+    libmute8

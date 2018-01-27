@@ -16,4 +16,5 @@ HEADERS += \
 FORMS += \
         settingswindow.ui
 
-include(../lib/libmute8/link.pri)
+include(../widget/audiodevicewidget.pri)
+include(../lib/libmute8/libmute8.pri)

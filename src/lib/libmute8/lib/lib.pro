@@ -1,9 +1,6 @@
 TARGET = libmute8
 TEMPLATE = lib
 CONFIG += static
-VERSION = 0.0.1
-
-DEFINES += LIBMUTE8_LIBRARY
 
 SOURCES += \
     impl/CoreAudio/deviceenumerator.cpp \
@@ -18,4 +15,6 @@ HEADERS += \
     ../include/impl/CoreAudio/audiodevice.h \
     ../include/impl/CoreAudio/volumecontrol.h
 
-include(../build.pri)
+INCLUDEPATH += \
+    ../include \
+    $$(BOOST_DIR)

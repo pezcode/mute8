@@ -15,4 +15,4 @@ HEADERS += \
     CoreAudio/testcorevolumecontrol.h \
     CoreAudio/testcoredeviceenumerator.h
 
-include(../link.pri)
+include(../libmute8.pri)
