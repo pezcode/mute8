@@ -1,6 +1,8 @@
 [submodule "src/external/qglobalshortcut"]
 	path = src/external/qglobalshortcut
 	url = https://github.com/pezcode/qglobalshortcut.git
+	branch = master
 [submodule "src/external/SingleApplication"]
 	path = src/external/SingleApplication
 	url = https://github.com/itay-grudev/SingleApplication.git
+	branch = master
