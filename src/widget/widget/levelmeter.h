@@ -2,6 +2,8 @@
 #define LEVELMETER_H
 
 #include <QWidget>
+#include <QTime>
+#include <QTimer>
 
 class LevelMeter : public QWidget
 {
