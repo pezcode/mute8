@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="app.ico">resources/icons/app.ico</file>
+        <file alias="muted.ico">resources/icons/muted.ico</file>
+        <file alias="unmuted.ico">resources/icons/unmuted.ico</file>
+        <file alias="tray.png">resources/icons/tray.png</file>
+    </qresource>
+</RCC>
