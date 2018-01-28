@@ -7,14 +7,18 @@ QT += core gui widgets
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
-        main.cpp \
-        settingswindow.cpp
+    main.cpp \
+    settingswindow.cpp \
+    trayapplication.cpp \
+    mute8.cpp
 
 HEADERS += \
-        settingswindow.h
+    settingswindow.h \
+    trayapplication.h \
+    mute8.h
 
 FORMS += \
-        settingswindow.ui
+    settingswindow.ui
 
 RESOURCES += \
     resources.qrc
