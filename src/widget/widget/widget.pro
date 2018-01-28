@@ -1,7 +1,6 @@
 TARGET = audiodevicewidget
 TEMPLATE = lib
 CONFIG += static
-VERSION = 0.0.1
 
 QT += widgets
 
