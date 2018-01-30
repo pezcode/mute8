@@ -10,3 +10,5 @@ qglobalshortcut.subdir = external/qglobalshortcut
 libmute8.subdir = lib/libmute8
 
 app.depends = widget qglobalshortcut libmute8
+
+include(installer/installer.pri)
