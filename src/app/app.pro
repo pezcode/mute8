@@ -4,6 +4,12 @@ CONFIG += windows
 
 QT += core gui widgets
 
+# dependencies
+include(../widget/audiodevicewidget.pri)
+include(../lib/libmute8/libmute8.pri)
+include(../external/qglobalshortcut/qglobalshortcut.pri)
+include(../external/singleapplication/singleapplication.pri)
+
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
@@ -28,7 +34,27 @@ RC_ICONS = resources/icons/app.ico
 # macOS icon
 ICON = resources/icons/app.icns
 
-include(../widget/audiodevicewidget.pri)
-include(../lib/libmute8/libmute8.pri)
-include(../external/qglobalshortcut/qglobalshortcut.pri)
-include(../external/singleapplication/singleapplication.pri)
+LANGUAGES = de
+TRANSLATIONDIR = translations
+
+for(lang, LANGUAGES){
+    TRANSLATIONS += $${TRANSLATIONDIR}/mute8_$${lang}.ts
+}
+
+# lupdate parses everything in INCLUDEPATH (just adding boost makes it take 15 minutes)
+# it checks TR_EXCLUDE for regular expressions to exclude from parsing
+# so we add all the target's include paths to that list
+# note: this assumes our own source files are not in the include path!
+for(incl, INCLUDEPATH){
+    TR_EXCLUDE += $$clean_path($$incl)/*
+}
+
+# update ts files after every compilation
+QMAKE_POST_LINK = $$[QT_INSTALL_BINS]/lupdate $$_PRO_FILE_
+
+# compile ts files into qm binaries
+build_qm.input = TRANSLATIONS
+build_qm.output  = $${TRANSLATIONDIR}/${QMAKE_FILE_IN_BASE}.qm
+build_qm.commands = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_OUT}
+build_qm.CONFIG += no_link target_predeps
+QMAKE_EXTRA_COMPILERS += build_qm
