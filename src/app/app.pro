@@ -49,12 +49,15 @@ for(incl, INCLUDEPATH){
     TR_EXCLUDE += $$clean_path($$incl)/*
 }
 
+LUPDATE = $$shell_path($$[QT_INSTALL_BINS]/lupdate)
+LRELEASE = $$shell_path($$[QT_INSTALL_BINS]/lrelease)
+
 # update ts files after every compilation
-QMAKE_POST_LINK = $$[QT_INSTALL_BINS]/lupdate $$_PRO_FILE_
+QMAKE_POST_LINK = $${LUPDATE} $$_PRO_FILE_
 
 # compile ts files into qm binaries
 build_qm.input = TRANSLATIONS
 build_qm.output  = $${TRANSLATIONDIR}/${QMAKE_FILE_IN_BASE}.qm
-build_qm.commands = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_OUT}
+build_qm.commands = $${LRELEASE} ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_OUT}
 build_qm.CONFIG += no_link target_predeps
 QMAKE_EXTRA_COMPILERS += build_qm
