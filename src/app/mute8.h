@@ -7,6 +7,8 @@
 
 class Mute8 : public TrayApplication
 {
+    Q_OBJECT
+
 public:
 
     Mute8();

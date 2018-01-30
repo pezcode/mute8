@@ -18,7 +18,8 @@ Mute8::Mute8() :
 
     this->tray->setContextMenu(trayMenu);
 
-    //showSettings();
+    this->settingsWindow->setWindowTitle(this->name);
+    showSettings();
 }
 
 Mute8::~Mute8()
