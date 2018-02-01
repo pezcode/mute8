@@ -18,10 +18,10 @@ LevelMeter::LevelMeter(QWidget *parent)
     ,   m_rmsColor(Qt::red)
     ,   m_peakColor(255, 200, 200, 255)
 {
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
-    setMinimumWidth(30);
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+    setMinimumSize(QSize(15, 25));
 
-    connect(m_redrawTimer, SIGNAL(timeout()), this, SLOT(redrawTimerExpired()));
+    connect(m_redrawTimer, &QTimer::timeout, this, &LevelMeter::redrawTimerExpired);
     m_redrawTimer->start(RedrawInterval);
 }
 
@@ -75,9 +75,8 @@ void LevelMeter::paintEvent(QPaintEvent *event)
 
     QPainter painter(this);
     painter.fillRect(rect(), Qt::black);
-
     QRect bar = rect();
-
+    /*
     bar.setTop(rect().top() + (1.0 - m_peakHoldLevel) * rect().height());
     bar.setBottom(bar.top() + 5);
     painter.fillRect(bar, m_rmsColor);
@@ -87,5 +86,7 @@ void LevelMeter::paintEvent(QPaintEvent *event)
     painter.fillRect(bar, m_peakColor);
 
     bar.setTop(rect().top() + (1.0 - m_rmsLevel) * rect().height());
-    painter.fillRect(bar, m_rmsColor);
+    */
+    bar.setTop(rect().top() + (1.0 - m_peakLevel) * rect().height());
+    painter.fillRect(bar, m_peakColor);
 }

@@ -12,7 +12,6 @@ class LevelMeter : public QWidget
 public:
 
     explicit LevelMeter(QWidget *parent = nullptr);
-    ~LevelMeter();
 
     void paintEvent(QPaintEvent *event) override;
 
