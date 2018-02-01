@@ -17,12 +17,11 @@ public:
     CoreVolumeControl(const IAudioEndpointVolumePtr& volume);
     virtual ~CoreVolumeControl() = default;
 
-    virtual float getVolume() const;
-    virtual void setVolume(float volume) const;
+    virtual float getVolume() const override;
+    virtual void setVolume(float volume) const override;
 
-    virtual bool getMute() const;
-    virtual void setMute(bool mute) const;
-
+    virtual bool getMute() const override;
+    virtual void setMute(bool mute) const override;
 
 private:
 

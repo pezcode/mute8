@@ -18,14 +18,14 @@ public:
     CoreAudioDevice(const IMMDevicePtr& device);
     virtual ~CoreAudioDevice() = default;
 
-    virtual std::string getId() const;
-    virtual std::string getDescription() const;
-    virtual std::string getAdapter() const;
-    virtual std::string getName() const;
-    virtual Type getType() const;
-    virtual State getState() const;
-    virtual std::shared_ptr<IVolumeControl> getVolumeControl() const;
-    virtual float getPeak() const;
+    virtual std::string getId() const override;
+    virtual std::string getDescription() const override;
+    virtual std::string getAdapter() const override;
+    virtual std::string getName() const override;
+    virtual Type getType() const override;
+    virtual State getState() const override;
+    virtual std::shared_ptr<IVolumeControl> getVolumeControl() const override;
+    virtual float getPeak() const override;
 
 private:
 
