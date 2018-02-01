@@ -2,7 +2,7 @@
 
 #include <impl/CoreAudio/volumecontrol.h>
 #include <Mmdeviceapi.h> // IMM interfaces
-#include <Endpointvolume.h> // IAudioEndpointVolume
+#include <Endpointvolume.h> // IAudioEndpointVolume, IAudioMeterInformation
 #include <Functiondiscoverykeys_devpkey.h> // PKEY_Device_FriendlyName
 #include <comdef.h> // _COM_SMARTPTR_TYPEDEF
 #include <comutil.h> // _bstr_t
@@ -37,40 +37,25 @@ std::string CoreAudioDevice::getId() const
         throw std::runtime_error("GetId failed");
     }
     assert(idUtf16 != nullptr);
-    //std::string id = this->encodeUtf8(idUtf16);
-    // TODO use ConvertBSTRToString?
+    assert(wcslen(idUtf16) > 0);
     std::string id = _bstr_t(idUtf16);
     CoTaskMemFree(idUtf16);
-    //return id;
     return id;
+}
+
+std::string CoreAudioDevice::getDescription() const
+{
+    return getStringProperty(PKEY_Device_DeviceDesc);
+}
+
+std::string CoreAudioDevice::getAdapter() const
+{
+    return getStringProperty(PKEY_DeviceInterface_FriendlyName);
 }
 
 std::string CoreAudioDevice::getName() const
 {
-    _COM_SMARTPTR_TYPEDEF(IPropertyStore, __uuidof(IPropertyStore));
-
-    HRESULT hr = S_OK;
-
-    IPropertyStorePtr pProperties;
-    hr = this->pDevice->OpenPropertyStore(STGM_READ, &pProperties);
-    if(FAILED(hr))
-    {
-        throw std::runtime_error("OpenPropertyStore failed");
-    }
-    assert(pProperties != nullptr);
-    PROPVARIANT varName;
-    PropVariantInit(&varName);
-    hr = pProperties->GetValue(PKEY_Device_FriendlyName, &varName);
-    if(FAILED(hr))
-    {
-        throw std::runtime_error("GetValue for PKEY_Device_FriendlyName failed");
-    }
-    assert(varName.vt == VT_LPWSTR);
-    assert(varName.pwszVal != nullptr);
-    std::string name = _bstr_t(varName.pwszVal);
-    //std::string name = this->encodeUtf8(varName.pwszVal);
-    PropVariantClear(&varName);
-    return name;
+    return getStringProperty(PKEY_Device_FriendlyName);
 }
 
 IAudioDevice::Type CoreAudioDevice::getType() const
@@ -138,4 +123,51 @@ std::shared_ptr<IVolumeControl> CoreAudioDevice::getVolumeControl() const
 
     assert(pVolume != nullptr);
     return std::make_shared<CoreVolumeControl>(pVolume);
+}
+
+float CoreAudioDevice::getPeak() const
+{
+    _COM_SMARTPTR_TYPEDEF(IAudioMeterInformation, __uuidof(IAudioMeterInformation));
+
+    float peak = 0.0f;
+
+    IAudioMeterInformationPtr pMeter;
+    HRESULT hr = this->pDevice->Activate(__uuidof(IAudioMeterInformation), CLSCTX_ALL, NULL, reinterpret_cast<void**>(&pMeter));
+    if(SUCCEEDED(hr))
+    {
+        assert(pMeter != nullptr);
+        pMeter->GetPeakValue(&peak);
+    }
+
+    assert(peak >= 0.0f && peak <= 1.0f);
+    return peak;
+}
+
+std::string CoreAudioDevice::getStringProperty(const PROPERTYKEY& property) const
+{
+    _COM_SMARTPTR_TYPEDEF(IPropertyStore, __uuidof(IPropertyStore));
+
+    HRESULT hr = S_OK;
+    IPropertyStorePtr pProperties;
+    hr = this->pDevice->OpenPropertyStore(STGM_READ, &pProperties);
+    if(FAILED(hr))
+    {
+        throw std::runtime_error("OpenPropertyStore failed");
+    }
+    assert(pProperties != nullptr);
+    PROPVARIANT var;
+    PropVariantInit(&var);
+    hr = pProperties->GetValue(property, &var);
+    if(FAILED(hr))
+    {
+        throw std::runtime_error("GetValue failed");
+    }
+    if(var.vt != VT_LPWSTR)
+    {
+        throw std::runtime_error("Invalid property type (expected VT_LPWSTR)");
+    }
+    assert(var.pwszVal != nullptr);
+    std::string propString = _bstr_t(var.pwszVal);
+    PropVariantClear(&var);
+    return propString;
 }

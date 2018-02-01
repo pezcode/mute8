@@ -19,6 +19,7 @@ public:
 
     using IDeviceEnumerator::devices; // also use overloaded interface methods
     virtual DeviceList devices(boost::optional<IAudioDevice::Type> type, boost::optional<IAudioDevice::State> state) const;
+    virtual std::shared_ptr<IAudioDevice> defaultDevice(boost::optional<IAudioDevice::Type> type) const;
 
 private:
 

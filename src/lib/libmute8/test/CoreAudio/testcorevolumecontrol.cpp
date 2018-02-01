@@ -68,7 +68,7 @@ void TestCoreVolumeControl::inputInvalidRangeThrows() const
         auto volumeControl = device->getVolumeControl();
         if(volumeControl)
         {
-            const float oldVolume = volumeControl->getVolume();
+            float oldVolume = volumeControl->getVolume();
             QVERIFY_EXCEPTION_THROWN(volumeControl->setVolume(-0.5f), std::invalid_argument);
             QVERIFY_EXCEPTION_THROWN(volumeControl->setVolume(1.5f), std::invalid_argument);
             // just in case
@@ -121,19 +121,19 @@ void TestCoreVolumeControl::muteAndVolumeIndependent() const
         auto volumeControl = device->getVolumeControl();
         if(volumeControl)
         {
-            const float oldVolume = volumeControl->getVolume();
-            const bool oldMute = volumeControl->getMute();
+            float oldVolume = volumeControl->getVolume();
+            bool oldMute = volumeControl->getMute();
 
             volumeControl->setVolume(0.0f);
-            const bool testMute0 = volumeControl->getMute();
+            bool testMute0 = volumeControl->getMute();
             volumeControl->setVolume(1.0f);
-            const bool testMute1 = volumeControl->getMute();
+            bool testMute1 = volumeControl->getMute();
             volumeControl->setVolume(oldVolume);
 
             volumeControl->setMute(true);
-            const float testVolume0 = volumeControl->getVolume();
+            float testVolume0 = volumeControl->getVolume();
             volumeControl->setMute(false);
-            const float testVolume1 = volumeControl->getVolume();
+            float testVolume1 = volumeControl->getVolume();
             volumeControl->setMute(oldMute);
 
             QVERIFY(testMute0 == oldMute);

@@ -24,11 +24,13 @@ void TestCoreAudioDevice::ctorThrowsOnNullPtr() const
     QVERIFY_EXCEPTION_THROWN(CoreAudioDevice device(nullptr), std::invalid_argument);
 }
 
-// All devices have a non-empty name and ID
-void TestCoreAudioDevice::hasNameAndId() const
+// All devices have a non-empty description, adapter, name and ID
+void TestCoreAudioDevice::hasNamesAndId() const
 {
     for(const auto& device : this->devices)
     {
+        QVERIFY(!device->getDescription().empty());
+        QVERIFY(!device->getAdapter().empty());
         QVERIFY(!device->getName().empty());
         QVERIFY(!device->getId().empty());
     }
@@ -43,4 +45,14 @@ void TestCoreAudioDevice::uniqueIds() const
         return dev1->getId() == dev2->getId();
     });
     QVERIFY(uniqueDevices.size() == this->devices.size());
+}
+
+// Peak values are in the range [0, 1]
+void TestCoreAudioDevice::peakValidRange() const
+{
+    for(const auto& device : this->devices)
+    {
+        float peak = device->getPeak();
+        QVERIFY(peak >= 0.0f && peak <= 1.0f);
+    }
 }

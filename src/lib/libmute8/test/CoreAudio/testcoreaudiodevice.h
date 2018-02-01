@@ -20,8 +20,9 @@ private slots:
     void initTestCase();
 
     void ctorThrowsOnNullPtr() const;
-    void hasNameAndId() const;
+    void hasNamesAndId() const;
     void uniqueIds() const;
+    void peakValidRange() const;
 };
 
 #endif // TESTCOREAUDIODEVICE_H

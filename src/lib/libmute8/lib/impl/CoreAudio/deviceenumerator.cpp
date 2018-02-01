@@ -109,3 +109,8 @@ DeviceList filtered;
 
     return filtered;
 }
+
+std::shared_ptr<IAudioDevice> CoreDeviceEnumerator::defaultDevice(boost::optional<IAudioDevice::Type> type) const
+{
+    return nullptr;
+}

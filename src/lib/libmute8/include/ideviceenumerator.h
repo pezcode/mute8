@@ -41,6 +41,8 @@ public:
     {
        return this->devices(any, any);
     }
+
+    virtual std::shared_ptr<IAudioDevice> defaultDevice(boost::optional<IAudioDevice::Type> type) const = 0;
 };
 
 }

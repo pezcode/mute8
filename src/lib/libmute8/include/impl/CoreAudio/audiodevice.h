@@ -19,18 +19,22 @@ public:
     virtual ~CoreAudioDevice() = default;
 
     virtual std::string getId() const;
+    virtual std::string getDescription() const;
+    virtual std::string getAdapter() const;
     virtual std::string getName() const;
     virtual Type getType() const;
     virtual State getState() const;
     virtual std::shared_ptr<IVolumeControl> getVolumeControl() const;
+    virtual float getPeak() const;
 
 private:
-
 
     _COM_SMARTPTR_TYPEDEF(IMMEndpoint, __uuidof(IMMEndpoint));
 
     IMMDevicePtr pDevice;
     IMMEndpointPtr pEndpoint;
+
+    std::string getStringProperty(const PROPERTYKEY& property) const;
 };
 
 }
