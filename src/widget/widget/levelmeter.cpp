@@ -2,8 +2,11 @@
 
 #include <QPainter>
 #include <QTimer>
+#include <QStylePainter>
+#include <QStyleOptionFrame>
+#include <QApplication>
 
-const int RedrawInterval = 100; // ms
+const int RedrawInterval = 50; // ms
 const qreal PeakDecayRate = 0.001;
 const int PeakHoldLevelDuration = 2000; // ms
 
@@ -19,10 +22,24 @@ LevelMeter::LevelMeter(QWidget *parent)
     ,   m_peakColor(255, 200, 200, 255)
 {
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
-    setMinimumSize(QSize(15, 25));
+    // TODO: DPI aware sizes?
+    // so apps without Qt::AA_EnableHighDpiScaling still work
+    // e.g. pick font point size so min height the size of a point 12 row of text
+    // QWidget::logicalDpiX etc.
+
+    // not really needed with sizehint
+    setMinimumSize(QSize(10, 10));
+
+    // DPI aware icons
+    // Icon::addFile with @2x format, gives us Pixmaps with higher device DPI ratio
 
     connect(m_redrawTimer, &QTimer::timeout, this, &LevelMeter::redrawTimerExpired);
     m_redrawTimer->start(RedrawInterval);
+}
+
+QSize LevelMeter::sizeHint() const
+{
+    return QSize(15, 25);
 }
 
 void LevelMeter::reset()
@@ -73,20 +90,34 @@ void LevelMeter::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
 
-    QPainter painter(this);
-    painter.fillRect(rect(), Qt::black);
-    QRect bar = rect();
+    QStylePainter stylePainter(this);
+
+    QStyleOptionFrame frameOptions;
+    frameOptions.initFrom(this);
+    stylePainter.drawPrimitive(QStyle::PE_Frame, frameOptions);
+
     /*
-    bar.setTop(rect().top() + (1.0 - m_peakHoldLevel) * rect().height());
-    bar.setBottom(bar.top() + 5);
-    painter.fillRect(bar, m_rmsColor);
-    bar.setBottom(rect().bottom());
-
-    bar.setTop(rect().top() + (1.0 - m_decayedPeakLevel) * rect().height());
-    painter.fillRect(bar, m_peakColor);
-
-    bar.setTop(rect().top() + (1.0 - m_rmsLevel) * rect().height());
+    // TODO shrink rect
+    QStyleOptionProgressBar barOptions;
+    barOptions.initFrom(this);
+    barOptions.orientation = Qt::Vertical;
+    barOptions.minimum = 0;
+    barOptions.maximum = 100;
+    barOptions.progress = static_cast<int>(m_peakLevel * 100.0);
+    stylePainter.drawControl(QStyle::CE_ProgressBarContents, barOptions);
     */
-    bar.setTop(rect().top() + (1.0 - m_peakLevel) * rect().height());
-    painter.fillRect(bar, m_peakColor);
+
+    QPalette palette = QApplication::palette();
+    QPalette::ColorGroup group = isEnabled() ? QPalette::Normal : QPalette::Disabled;
+    QColor barColor = palette.color(group, QPalette::Highlight);
+
+    QPainter painter(this);
+
+    QStyle* style = QApplication::style();
+    int margin = 2 * style->pixelMetric(QStyle::PM_DefaultFrameWidth);
+    //int chunk = style->pixelMetric(QStyle::PM_ProgressBarChunkWidth);
+
+    QRect bar = rect().marginsRemoved(QMargins(margin, margin, margin, margin));
+    bar.setTop(bar.top() + (1.0 - m_peakLevel) * bar.height());
+    painter.fillRect(bar, barColor);
 }

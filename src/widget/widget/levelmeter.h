@@ -15,6 +15,8 @@ public:
 
     void paintEvent(QPaintEvent *event) override;
 
+    virtual QSize sizeHint() const override;
+
 public slots:
 
     void reset();
