@@ -44,6 +44,3 @@ target_wrapper.*
 
 # QtCtreator CMake
 CMakeLists.txt.user*
-
-# installer data
-src/installer/packages/*/data/*
