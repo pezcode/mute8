@@ -1,15 +1,9 @@
-win32 {
-    CONFIG(release, debug|release) {
-        LIBS += -L$$shadowed(widget/release) -laudiodevicewidget
-    }
-    CONFIG(debug, debug|release) {
-        LIBS += -L$$shadowed(widget/debug) -laudiodevicewidget
-    }
-} else {
-    LIBS += -L$$shadowed(widget) -laudiodevicewidget
+LIBPATH = $$shadowed(widget)
+LIBNAME = audiodevicewidget
+debug_and_release_target {
+    CONFIG(release, debug|release): LIBPATH = $$LIBPATH/release
+    CONFIG(debug,   debug|release): LIBPATH = $$LIBPATH/debug
 }
-
-PRE_TARGETDEPS += $$shadowed(widget)
-
+LIBS += -L$$LIBPATH -l$$LIBNAME
+PRE_TARGETDEPS += $$LIBPATH
 INCLUDEPATH += $$PWD/widget
-DEPENDPATH += $$PWD/widget

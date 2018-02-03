@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
 
-SUBDIRS += widget
-SUBDIRS += plugin
+SUBDIRS += \
+    widget \
+    plugin
+
 plugin.depends = widget
