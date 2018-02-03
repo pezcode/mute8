@@ -4,7 +4,6 @@
 
 TrayApplication::TrayApplication(const QString& name, const QIcon& icon, QObject *parent) :
     QObject(parent),
-    name(name),
     tray(new QSystemTrayIcon(icon, this))
 {
     Q_ASSERT(!name.isEmpty());

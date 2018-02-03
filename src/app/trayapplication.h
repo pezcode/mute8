@@ -21,8 +21,6 @@ public slots:
     void setIcon(const QIcon& icon);
 
 protected:
-
-    QString name;
     QSystemTrayIcon* tray;
 };
 

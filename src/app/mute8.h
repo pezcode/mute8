@@ -11,6 +11,10 @@ class Mute8 : public TrayApplication
 
 public:
 
+    static constexpr char NAME[] = "Mute8";
+    static constexpr char ORGANIZATION[] = "pezcode";
+    static constexpr char VERSION[] = "1.0.0";
+
     Mute8();
     ~Mute8();
 

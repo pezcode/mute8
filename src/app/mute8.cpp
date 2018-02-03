@@ -2,15 +2,16 @@
 #include <QApplication>
 
 Mute8::Mute8() :
-    TrayApplication(tr("Mute8"), QIcon(":/icons/tray.png")),
+    TrayApplication(NAME, QIcon(":/icons/tray.png")),
     settingsWindow(new SettingsWindow()),
     trayMenu(new QMenu())
 {
+    // QStyle::standardIcon
     QAction* settingsAction = new QAction(tr("&Settings"), this);
     connect(settingsAction, &QAction::triggered, this, &Mute8::showSettings);
 
     QAction* quitAction = new QAction(tr("&Quit"), this);
-    connect(quitAction, &QAction::triggered, qApp, &QApplication::quit);
+    connect(quitAction, &QAction::triggered, &QApplication::quit);
 
     trayMenu->addAction(settingsAction);
     trayMenu->addSeparator();
@@ -18,7 +19,7 @@ Mute8::Mute8() :
 
     this->tray->setContextMenu(trayMenu);
 
-    this->settingsWindow->setWindowTitle(this->name);
+    this->settingsWindow->setWindowTitle(NAME);
     showSettings();
 }
 
